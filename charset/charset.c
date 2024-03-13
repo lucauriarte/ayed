@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include "charset.h"
 #include "charset_lib2.h"
 
@@ -20,4 +21,23 @@ charset* charset_intersection(charset* cs_1, charset* cs_2)
     }
 
     return p_resultado;
+}
+
+char* charset_tostring(charset* ch)
+{
+    static char string[MAX_CHARS] = {0};
+    uint8_t cant_caracteres = 0;
+
+    for (int i = 0; i < MAX_CHARS ; i++) 
+    {
+        if(charset_in(ch, i))
+        {
+            string[cant_caracteres] = i;
+            cant_caracteres++;
+        }
+    }
+    
+    string[cant_caracteres] = '\0';
+
+    return string;
 }
