@@ -8,7 +8,6 @@
 
 char* string_get_common_chars(char string_array[][MAX_CHARS], uint8_t num_strings)
 {
-    charset strings[MAX_STRINGS];
     pcharset p_strings[MAX_STRINGS];
     pcharset p_res = NULL;
     char* res;

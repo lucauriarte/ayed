@@ -5,10 +5,7 @@
 
 charset* charset_intersection(charset* cs_1, charset* cs_2)
 {
-    charset resultado = {0};
     pcharset p_resultado = NULL;
-    
-    p_resultado = &resultado;
 
     p_resultado = charset_init();
 
@@ -44,11 +41,9 @@ char* charset_tostring(charset* ch)
 
 void charset_test()
 {
-    charset ch_1;
-    charset ch_2;
     pcharset p_res = NULL;
-    pcharset p_ch_1 = &ch_1;
-    pcharset p_ch_2 = &ch_2;
+    pcharset p_ch_1 = NULL;
+    pcharset p_ch_2 = NULL;
     char* string;
 
     p_ch_1 = charset_init();
