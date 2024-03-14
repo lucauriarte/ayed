@@ -128,6 +128,16 @@ fraction* fraction_div (fraction* f1, fraction* f2)
     return res;
 }
 
+void fraction_simplify (fraction* f)
+{
+    int div_comun = 0;
+
+    div_comun = mcd(f->num, f->den);
+
+    f->num /= div_comun;
+    f->den /= div_comun;
+}
+
 void fraction_test(void)
 {
     fraction* f1;
@@ -161,4 +171,11 @@ void fraction_test(void)
     f3 = fraction_div(f1, f2);
     fraction_print(f3);
     fraction_destroy(f3);
+
+    printf("Fraccion 1 simplificada: ");
+    fraction_simplify(f1);
+    fraction_print(f1);
+
+    fraction_destroy(f1);
+    fraction_destroy(f2);
 }
