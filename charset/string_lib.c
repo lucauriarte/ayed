@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
+#include "charset.h"
 #include "charset_lib2.h"
 #include "string_lib.h"
 
@@ -66,13 +67,52 @@ uint8_t string_words_count(char* string)
     return words_count;
 }
 
+uint8_t string_valid_usernames(char usernames[][MAX_CHARS], uint8_t num_usernames)
+{
+    uint8_t valid_usernames = 0;
+    pcharset invalid_chars = NULL;
+    pcharset usernames_ch[MAX_STRINGS];
+    pcharset intersetion = NULL;
+    char* intersetion_string;
+
+    invalid_chars = charset_init();
+
+    charset_add_range(invalid_chars, '0', '9');
+    charset_add_range(invalid_chars, 'a', 'z');
+    charset_add_range(invalid_chars, 'A', 'Z');
+    
+    for (int i=0 ; i < MAX_CHARS ; i++)
+    {
+        invalid_chars->v[i] = !invalid_chars->v[i];
+    }
+
+    for (int i=0 ; i < num_usernames ; i++) 
+    {
+        usernames_ch[i] = charset_init();
+        charset_add_str(usernames_ch[i], usernames[i]);
+    }
+
+    for (int i=0 ; i < num_usernames ; i++) 
+    {
+        intersetion = charset_intersection(usernames_ch[i], invalid_chars);
+        intersetion_string = charset_tostring(intersetion);
+        if (*intersetion_string ==  '\0')
+        {
+            valid_usernames++;
+        }
+    }
+
+    return valid_usernames;
+}
+
 void string_test()
 {
     char strings[MAX_STRINGS][MAX_CHARS] = {"hola", "chau", "asado", "casa", "auto"};
+    char usernames[MAX_STRINGS][MAX_CHARS] = {"cuca", "cuca123", "cuca!", "Cuca", "C u c a", "c.u.c.a"};
     char* res = NULL;
     char *str = "Esta/es una.cadena;de(prueba   tab";
     uint8_t words = 0;
-
+    uint8_t valid_usernames = 0;
     /* Caracteres comunes en varios strings */
     res = string_get_common_chars(strings, 5);
 
@@ -82,4 +122,9 @@ void string_test()
     words = string_words_count(str);
     
     printf("Cantidad de palabras: %d\n", words);
+
+    /* Comprobar cantidad de usuarios validos */
+    valid_usernames = string_valid_usernames(usernames, 6);
+
+    printf("Cantidad de nombres de usuario validos: %u\n", valid_usernames);
 }
