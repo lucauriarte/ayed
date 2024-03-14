@@ -3,28 +3,36 @@
 #include <stdio.h>
 
 /**
+ * @brief Encuentra el maximo comun divisor entre dos enteros
+ * 
+ * @param a entero a.
+ * @param b entero b.
+ * @return mcd entre a y b
+ */
+int mcd(int a, int b) 
+{
+    int aux = 0;
+
+    while (b != 0) 
+    {
+        aux = b;
+        b = a % b;
+        a = aux;
+    }
+
+    return a;
+}
+
+/**
  * @brief Encuentra el minimo comun multiplo entre dos enteros
  * 
  * @param a entero a.
  * @param b entero b.
  * @return mcm entre a y b
  */
-int mcm(int a, int b) {
-    int aux_a = a;
-    int aux_b = b;
-    
-    while (aux_a != aux_b) 
-    {
-        if (aux_a < aux_b)
-        {
-            aux_a += a;
-        }
-        else
-        {
-            aux_b += b;
-        }
-    }
-    return aux_a;
+int mcm(int a, int b) 
+{
+    return (a * b) / mcd(a, b);    
 }
 
 fraction* fraction_new (int num, int den)
