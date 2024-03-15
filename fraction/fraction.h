@@ -97,9 +97,9 @@ void fraction_simplify (fraction* f);
  * @param f1 fraccion a comparar.
  * @param f2 fraccion a comparar.
  * @return
- *  0 si f1 = f2
- *  1 si f1 > f2
- * -1 si f1 < f2
+ *   0 si f1 = f2
+ *  >0 si f1 > f2
+ *  <0 si f1 < f2
  */
 int fraction_cmp (fraction* f1, fraction* f2); 
 

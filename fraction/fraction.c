@@ -138,11 +138,22 @@ void fraction_simplify (fraction* f)
     f->den /= div_comun;
 }
 
+int fraction_cmp(fraction *f1, fraction *f2)
+{
+    int cmp = 0;
+    fraction* res;
+
+    res = fraction_div(f1, f2);
+    
+    return res->num - res->den;
+}
+
 void fraction_test(void)
 {
     fraction* f1;
     fraction* f2;
     fraction* f3;
+    int cmp = 0;
 
     f1 = fraction_new(2, 4);
     f2 = fraction_new(3, 9);
@@ -175,6 +186,20 @@ void fraction_test(void)
     printf("Fraccion 1 simplificada: ");
     fraction_simplify(f1);
     fraction_print(f1);
+
+    cmp = fraction_cmp(f1, f2);
+    if (cmp > 0)
+    {
+        printf("La fraccion 1 es mayor que la 2\n");
+    }
+    else if (cmp < 0)
+    {
+        printf("La fraccion 1 es menor que la 2\n");
+    }
+    else 
+    {
+        printf("Las fracciones son iguales o equivalentes\n");
+    }
 
     fraction_destroy(f1);
     fraction_destroy(f2);
