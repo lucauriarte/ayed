@@ -28,7 +28,7 @@ vector* vector_new(int ini_size)
    
    if(res != NULL)
    {
-      res->a = (VECTOR_ELEMENT*)malloc(sizeof(VECTOR_ELEMENT) * res->max_size);
+      res->a = (VECTOR_ELEMENT*)malloc(sizeof(VECTOR_ELEMENT) * ini_size);
       if(res->a != NULL)
       {
          res->size = 0;
@@ -36,6 +36,7 @@ vector* vector_new(int ini_size)
       }
       else
       {
+         free(res);
          res = NULL;
       }
    }
