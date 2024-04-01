@@ -9,9 +9,18 @@ typedef struct _vector{
 } vector;
 
 
-void resize(vector* v)
+int expand(vector* v)
 {
+   int status = 0;
    
+   v->max_size *= 2;
+   v->a = (VECTOR_ELEMENT*)realloc(v->a, v->max_size);
+   if(v->a == NULL)
+   {
+      status = -1;
+   }
+
+   return status;
 }
 
 /**
@@ -135,10 +144,16 @@ VECTOR_ELEMENT vector_set(vector* v, int index, VECTOR_ELEMENT value){
  * @param value 
  */
 int vector_add(vector* v, VECTOR_ELEMENT value){
+   int status = 0;
+   
    if(vector_isfull(v))
    {
-      expand(v);
+      status = expand(v);
    }
+   v->a[v->size] = value;
+   v->size++;
+
+   return status;
 }
 
 /**
