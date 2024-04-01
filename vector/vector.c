@@ -167,9 +167,28 @@ int vector_add(vector* v, VECTOR_ELEMENT value){
  * @param value 
  */
 int vector_insert(vector* v, int index, VECTOR_ELEMENT value){
-   /*** COMPLETAR ***/
-}
+   int status = 0;
 
+   if(vector_isfull(v))
+   {
+      status = expand(v);
+   }
+   if(index >= v->size)
+   {
+      status = -1;
+   }
+   if(status == 0)
+   {   
+      for (int i = v->size; i > index; i--) 
+      {
+         v->a[i] = v->a[i-1];
+      }
+      v->a[index] = value;
+      v->size++;  
+   }
+
+   return status;
+}
 
 /**
  * @brief Permite eliminar un elemento del vector
