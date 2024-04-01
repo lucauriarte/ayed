@@ -197,7 +197,14 @@ int vector_insert(vector* v, int index, VECTOR_ELEMENT value){
  * @param index 
  */
 VECTOR_ELEMENT vector_remove(vector* v, int index){
-   /*** COMPLETAR ***/ 
+   VECTOR_ELEMENT value = v->a[index];
+    v->size--;
+    for (int i = index; i < v->size; i++)
+    {
+        v->a[i] = v->a[i+1];
+    }
+
+    return value;
 }
 
 /**
