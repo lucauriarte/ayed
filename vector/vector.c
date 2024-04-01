@@ -150,8 +150,11 @@ int vector_add(vector* v, VECTOR_ELEMENT value){
    {
       status = expand(v);
    }
-   v->a[v->size] = value;
-   v->size++;
+   if(status == 0)
+   {
+      v->a[v->size] = value;
+      v->size++;
+   }
 
    return status;
 }
