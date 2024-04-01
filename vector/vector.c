@@ -212,5 +212,9 @@ VECTOR_ELEMENT vector_remove(vector* v, int index){
  * 
  */
 void vector_print(vector* v, void (*print)(VECTOR_ELEMENT)){
-   /*** COMPLETAR ***/
+   for (int i = 0; i < v->size; i++)
+   {
+      printf("V[%i] = ", i);
+      print(v->a[i]);
+   }
 }
