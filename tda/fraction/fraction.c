@@ -140,7 +140,6 @@ void fraction_simplify (fraction* f)
 
 int fraction_cmp(fraction *f1, fraction *f2)
 {
-    int cmp = 0;
     fraction* res;
 
     res = fraction_div(f1, f2);
