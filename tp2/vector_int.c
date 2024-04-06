@@ -20,6 +20,11 @@ int add_int(int a, int b)
     return a + b;
 }
 
+int compare_int(int a, int b)
+{
+    return a - b;
+}
+
 VECTOR_ELEMENT vector_operate(vector* v, VECTOR_ELEMENT (*operation)(VECTOR_ELEMENT, VECTOR_ELEMENT))
 {
     VECTOR_ELEMENT res;
@@ -60,6 +65,25 @@ vector* vector_sum(vector* a, vector* b)
     return result;
 }
 
+int vector_max(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+    int size = vector_size(v);
+    VECTOR_ELEMENT max;
+    VECTOR_ELEMENT element;
+
+    max = vector_get(v, 0);
+    for(int i=0; i<size; i++)
+    {
+        element = vector_get(v, i);
+        if(cmp(element, max) > 0)
+        {
+            max = element;
+        }
+    }
+
+    return max;
+}
+
 int main()
 {
     vector* v = NULL;
@@ -88,6 +112,8 @@ int main()
     v3 = vector_sum(v1, v2);
 
     vector_print(v3, print_int);
+
+    printf("Valor maximo del vector 1: %i\n", vector_max(v1, compare_int));
 
     return 0;
 }
