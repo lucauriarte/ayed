@@ -84,6 +84,22 @@ int vector_max(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
     return max;
 }
 
+int vector_get_ocurrencies(vector* v, VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+    int size = vector_size(v);
+    int ocurrencies = 0;
+
+    for(int i=0; i<size; i++)
+    {
+        if(cmp(vector_get(v, i), e) == 0)
+        {
+            ocurrencies++;
+        }
+    }
+
+    return ocurrencies;
+}
+
 int main()
 {
     vector* v = NULL;
@@ -94,8 +110,8 @@ int main()
     v1 = vector_new(3);
     v2 = vector_new(3);
     vector_add(v1, 2);
-    vector_add(v1, 3);
-    vector_add(v1, 6);
+    vector_add(v1, 2);
+    vector_add(v1, 2);
     vector_add(v2, 2);
     vector_add(v2, 3);
     vector_add(v2, 6);
@@ -115,5 +131,7 @@ int main()
 
     printf("Valor maximo del vector 1: %i\n", vector_max(v1, compare_int));
 
+    printf("Cantidad de veces que aparece el numero 2 en el vector 1: %i\n", vector_get_ocurrencies(v1, 2, compare_int));
+    
     return 0;
 }
