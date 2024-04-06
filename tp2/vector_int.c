@@ -100,21 +100,60 @@ int vector_get_ocurrencies(vector* v, VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, 
     return ocurrencies;
 }
 
+vector* get_sorted_vector(vector*v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+    vector* result = NULL;
+    char swapped = 1;
+    int size = vector_size(v);
+    VECTOR_ELEMENT e1, e2;
+
+    result = vector_new(size);
+    for (int i=0; i<size; i++)
+    {
+        vector_add(result, vector_get(v, i));
+    }
+
+    while ((swapped != 0) && (size > 0)) 
+    {
+        swapped = 0;
+        for (int i = 1; i < size; i++) 
+        {
+            e1 = vector_get(result, i - 1);
+            e2 = vector_get(result, i);
+            if (cmp(e1, e2) > 0) 
+            {
+                vector_set(result, i, e1);
+                vector_set(result, i - 1, e2);
+                swapped = 1;
+            }
+        }
+        size--;
+    }
+    return result;
+}
+
 int main()
 {
     vector* v = NULL;
     vector* v1 = NULL;
     vector* v2 = NULL;
     vector* v3 = NULL;
+    vector* unsorted_vector = NULL;
+    vector* sorted_vector = NULL;
 
     v1 = vector_new(3);
     v2 = vector_new(3);
+    unsorted_vector = vector_new(4);
     vector_add(v1, 2);
     vector_add(v1, 2);
     vector_add(v1, 2);
     vector_add(v2, 2);
     vector_add(v2, 3);
     vector_add(v2, 6);
+    vector_add(unsorted_vector, 9);
+    vector_add(unsorted_vector, 1);
+    vector_add(unsorted_vector, 6);
+    vector_add(unsorted_vector, 3);
 
     int sum = 0;
 
@@ -133,5 +172,11 @@ int main()
 
     printf("Cantidad de veces que aparece el numero 2 en el vector 1: %i\n", vector_get_ocurrencies(v1, 2, compare_int));
     
+    printf("Vector antes de ordenarlo:\n");
+    vector_print(unsorted_vector, print_int);
+    sorted_vector = get_sorted_vector(unsorted_vector, compare_int);
+    printf("Vector ordenado:\n");
+    vector_print(sorted_vector, print_int);
+
     return 0;
 }
