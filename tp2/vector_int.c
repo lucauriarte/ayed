@@ -132,6 +132,44 @@ vector* get_sorted_vector(vector*v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
     return result;
 }
 
+/* Retorna -1 en caso de no encontrar el elemento solicitado */
+int vector_sort_and_find(vector* v, VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+    VECTOR_ELEMENT e1, e2;
+    char swapped = 1;
+    int position = -1; 
+    int index = 0;
+    int size = vector_size(v);
+
+    while ((swapped != 0) && (size > 0)) 
+    {
+        swapped = 0;
+        for (int i = 1; i < size; i++) 
+        {
+            e1 = vector_get(v, i - 1);
+            e2 = vector_get(v, i);
+            if (cmp(e1, e2) > 0) 
+            {
+                vector_set(v, i, e1);
+                vector_set(v, i - 1, e2);
+                swapped = 1;
+            }
+        }
+        size--;
+    }
+
+    size = vector_size(v);
+    while((position == -1) && (index < size))
+    {
+        if(vector_get(v, index) == e)
+        {
+            position = index;
+        }
+        index++;
+    }
+    return position;
+}
+
 int main()
 {
     vector* v = NULL;
@@ -140,6 +178,7 @@ int main()
     vector* v3 = NULL;
     vector* unsorted_vector = NULL;
     vector* sorted_vector = NULL;
+    int position = 0;
 
     v1 = vector_new(3);
     v2 = vector_new(3);
@@ -177,6 +216,9 @@ int main()
     sorted_vector = get_sorted_vector(unsorted_vector, compare_int);
     printf("Vector ordenado:\n");
     vector_print(sorted_vector, print_int);
+
+    position = vector_sort_and_find(unsorted_vector, 6, compare_int);
+    printf("Posicion del elemento \"6\" en el vector ordenado: %i\n", position);
 
     return 0;
 }
