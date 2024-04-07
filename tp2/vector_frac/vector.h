@@ -1,9 +1,7 @@
 #ifndef _VECTOR
 #define _VECTOR
 
-#include "../../tda/fraction/fraction.h"
-
-#define VECTOR_ELEMENT fraction*
+#define VECTOR_ELEMENT int
 
 typedef struct _vector vector;
 
@@ -40,5 +38,8 @@ VECTOR_ELEMENT vector_remove(vector* v, int index);
 
 void vector_print(vector* v, void (*print)(VECTOR_ELEMENT));
 // Permite imprimir un vector por consola
+
+void vector_sort(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
+// Ordena el vector de forma ascendente
 
 #endif

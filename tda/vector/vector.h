@@ -39,4 +39,7 @@ VECTOR_ELEMENT vector_remove(vector* v, int index);
 void vector_print(vector* v, void (*print)(VECTOR_ELEMENT));
 // Permite imprimir un vector por consola
 
+void vector_sort(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
+// Ordena el vector de forma ascendente
+
 #endif

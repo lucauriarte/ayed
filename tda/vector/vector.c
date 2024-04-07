@@ -218,3 +218,33 @@ void vector_print(vector* v, void (*print)(VECTOR_ELEMENT)){
       print(v->a[i]);
    }
 }
+
+/**
+ * @brief Ordena el vector de forma ascendente
+ * 
+ * @param v Vector
+ * @param cmp Funcion de comparacion 
+ */
+void vector_sort(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+    VECTOR_ELEMENT e1, e2;
+    char swapped = 1;
+    int size = vector_size(v);
+
+    while ((swapped != 0) && (size > 0)) 
+    {
+        swapped = 0;
+        for (int i = 1; i < size; i++) 
+        {
+            e1 = vector_get(v, i - 1);
+            e2 = vector_get(v, i);
+            if (cmp(e1, e2) > 0) 
+            {
+                vector_set(v, i, e1);
+                vector_set(v, i - 1, e2);
+                swapped = 1;
+            }
+        }
+        size--;
+    }
+}
