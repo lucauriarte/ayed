@@ -170,6 +170,63 @@ int vector_sort_and_find(vector* v, VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VE
     return position;
 }
 
+vector* vector_mix(vector* v1, vector* v2, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+    int max_size = 0;
+    int min_size = 0;
+    VECTOR_ELEMENT e1;
+    VECTOR_ELEMENT e2;
+    vector* result = vector_new(vector_size(v1) + vector_size(v2));
+
+    if(vector_size(v1) > vector_size(v2))
+    {
+        min_size = vector_size(v2);
+        max_size = vector_size(v1);
+    }
+    else
+    {
+        min_size = vector_size(v1);
+        max_size = vector_size(v2);
+    }
+
+    for(int i=0; i<min_size; i++)
+    {
+        e1 = vector_get(v1, i);
+        e2 = vector_get(v2, i);
+        if(cmp(e1, e2) > 0)
+        {
+            vector_add(result, e2);
+            vector_add(result, e1);
+        }
+        else if (cmp(e1, e2) < 0)
+        {
+            vector_add(result, e2);
+            vector_add(result, e1);
+        }
+        else
+        {
+            vector_add(result, e1);
+        }
+    }
+
+    if(vector_size(v1) > vector_size(v2))
+    {
+        for(int i=min_size; i<max_size; i++)
+        {
+            vector_add(result, vector_get(v1, i));
+        }
+    }
+    else if(vector_size(v1) < vector_size(v2))
+    {
+        for(int i=min_size; i<max_size; i++)
+        {
+            vector_add(result, vector_get(v2, i));
+        }
+    }
+
+    return result;
+}
+
 int main()
 {
     vector* v = NULL;
@@ -178,6 +235,7 @@ int main()
     vector* v3 = NULL;
     vector* unsorted_vector = NULL;
     vector* sorted_vector = NULL;
+    vector* mixed_vector = NULL;
     int position = 0;
 
     v1 = vector_new(3);
@@ -220,5 +278,9 @@ int main()
     position = vector_sort_and_find(unsorted_vector, 6, compare_int);
     printf("Posicion del elemento \"6\" en el vector ordenado: %i\n", position);
 
+    mixed_vector =  vector_mix(v2, sorted_vector, compare_int);
+    printf("Vector mezclado:\n");
+    vector_print(mixed_vector, print_int);
+    
     return 0;
 }
