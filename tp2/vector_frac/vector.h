@@ -1,7 +1,9 @@
 #ifndef _VECTOR
 #define _VECTOR
 
-#define VECTOR_ELEMENT int
+#include "../../tda/fraction/fraction.h"
+
+#define VECTOR_ELEMENT fraction*
 
 typedef struct _vector vector;
 
