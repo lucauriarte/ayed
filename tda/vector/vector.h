@@ -42,4 +42,7 @@ void vector_print(vector* v, void (*print)(VECTOR_ELEMENT));
 void vector_sort(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
 // Ordena el vector de forma ascendente
 
+int vector_search_seq(vector* v,VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
+// Realiza una busqueda secuencial en el vector
+
 #endif

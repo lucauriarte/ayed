@@ -248,3 +248,24 @@ void vector_sort(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
         size--;
     }
 }
+
+/**
+ * @brief Realiza una busqueda secuencial en el vector
+ * 
+ * @param v Vector
+ * @param e Elemento a buscar
+ * @param cmp Funcion de comparacion
+ * @return Retorna la posicion del elemento o -1 si este no esta presente en el vector
+ */
+int vector_search_seq(vector* v,VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+   int position = 0;
+   int size =  vector_size(v);
+
+   while ((position < size) && (cmp(vector_get(v, position), e) != 0)) 
+   {
+      position++;
+   }
+
+   return (position < size)? position : -1;
+}
