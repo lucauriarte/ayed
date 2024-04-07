@@ -45,4 +45,7 @@ void vector_sort(vector* v, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
 int vector_search_seq(vector* v,VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
 // Realiza una busqueda secuencial en el vector
 
+int vector_search_bin(vector* v, VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT));
+// Realiza una busqueda binaria en el vector
+
 #endif

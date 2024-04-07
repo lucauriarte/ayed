@@ -269,3 +269,34 @@ int vector_search_seq(vector* v,VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR
 
    return (position < size)? position : -1;
 }
+
+/**
+ * @brief Realiza una busqueda binaria en el vector. Requiere que el vector este ordenado
+ * 
+ * @param v Vector
+ * @param e Elemento a buscar
+ * @param cmp Funcion de comparacion
+ * @return Retorna la posicion del elemento o -1 si este no esta presente en el vector
+ */
+int vector_search_bin(vector* v, VECTOR_ELEMENT e, int cmp(VECTOR_ELEMENT, VECTOR_ELEMENT))
+{
+   int size =  vector_size(v);
+   int high = size - 1;
+   int low = 0;
+   int mid = (high - low) / 2;
+
+   while ((low < high) && (cmp(vector_get(v, mid), e) != 0))
+   {
+      if (cmp(e, vector_get(v, mid)) < 0)
+      {
+         high = mid - 1;
+      }
+      else
+      {
+         low = mid + 1;
+      }
+      mid = (high + low) / 2;
+   }
+
+   return(cmp(vector_get(v, mid), e) == 0) ? mid : -1;
+}
