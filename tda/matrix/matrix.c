@@ -10,7 +10,25 @@
  * @return matrix* 
  */
 matrix* matrix_new(int rows, int columns){
-    /*** COMPLETAR ***/
+    matrix* mtx = NULL;
+
+    mtx = (matrix*)malloc(sizeof(matrix));
+
+    if(mtx != NULL)
+    {
+        mtx->a = (void**)malloc(sizeof(void*) * rows * columns);
+        if(mtx->a != NULL)
+        {
+            mtx->columns = columns;
+            mtx->rows = rows;
+        }
+        else
+        {
+            mtx = NULL;
+        }
+    }
+
+    return mtx;
 }
 
 /**
@@ -19,7 +37,8 @@ matrix* matrix_new(int rows, int columns){
  * @param m puntero a la matriz 
  */
 void matrix_free(matrix* m){
-    /*** COMPLETAR ***/
+    free(m->a);
+    free(m);
 }
 
 /**
@@ -29,7 +48,12 @@ void matrix_free(matrix* m){
  * @return int la cantidad de filas
  */
 int matrix_rows(matrix* m){
-    /*** COMPLETAR ***/
+    int rows = -1;
+    if (m != NULL)
+    {
+        rows = m->rows;
+    }
+    return rows;
 }
 
 /**
@@ -39,7 +63,12 @@ int matrix_rows(matrix* m){
  * @return int la cantidad de columnas
  */
 int matrix_columns(matrix* m){
-    /*** COMPLETAR ***/
+    int columns = -1;
+    if (m != NULL)
+    {
+        columns = m->columns;
+    }
+    return columns;
 }
 
 /**
@@ -51,7 +80,12 @@ int matrix_columns(matrix* m){
  * @return void* 
  */
 void* matrix_get(matrix* m, int row, int col){
-    /*** COMPLETAR ***/
+    void* aux = NULL;
+    if((m != NULL) && (row >= 0) && (row <= m->rows) && (col >= 0) && (col <= m->columns))
+    {
+        aux = m->a[(row * m->columns) + col];
+    }
+    return aux;
 }
 
 /**
@@ -63,7 +97,10 @@ void* matrix_get(matrix* m, int row, int col){
  * @param value valor a asignar
  */
 void matrix_set(matrix* m, int row, int col, void* value){
-    /*** COMPLETAR ***/
+    if((m != NULL) && (row >= 0) && (row <= m->rows) && (col >= 0) && (col <= m->columns))
+    {
+        m->a[(row * m->columns) + col] = value;
+    }    
 }
 
 /**
@@ -73,5 +110,16 @@ void matrix_set(matrix* m, int row, int col, void* value){
  * @param prt función que permite imprimir un valor de la matriz
  */
 void matrix_print(matrix* m, void prt(void*)){
-    /*** COMPLETAR ***/
+    if(m != NULL)
+    {
+        for(int i=0; i<m->rows; i++)
+        {
+            for(int j=0; j<m->columns; j++)
+            {
+                prt(m->a[(i*m->columns) + j]);
+                printf(" ");
+            }
+            printf("\n");
+        }
+    }
 }
