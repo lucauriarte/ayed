@@ -11,7 +11,7 @@ void print_int(void* value)
 
 void print_int_v(int value)
 {
-    printf("%4d", value);
+    printf("%4d\n", value);
 }
 
 void fill_matrix(matrix* m, int max) 
@@ -38,6 +38,44 @@ void fill_and_print_10x10_int_matix(matrix* m)
     matrix_print(m, print_int);
 }
 
+int replace_row(matrix* m, int row, vector* v) 
+{
+    int status = 0;
+    int* value = NULL;
+    if((m != NULL) && (v != NULL) && (matrix_columns(m) == vector_size(v)))
+    {
+        for (int j=0; j<matrix_columns(m); j++)
+        {
+            value = (int*)matrix_get(m, row, j);
+            *value = vector_get(v, j);
+            matrix_set(m, row, j, value);
+        }
+    }
+    else 
+    {
+        status = -1;
+    }
+    return status;
+}
+
+void replace_row_with_int_vector(matrix* m)
+{
+    int aux = 0;
+    vector* v = vector_new(10);
+    while(!vector_isfull(v))
+    {
+        aux = rand() % 10;
+        vector_add(v, aux);
+    }
+    printf("Matrix original:\n");
+    matrix_print(m, print_int);
+    printf("Vector:\n");
+    vector_print(v, print_int_v);
+    replace_row(m, 0, v);
+    printf("Matriz modificada:\n");
+    matrix_print(m, print_int);
+}
+
 int main()
 {
     matrix* m = NULL;
@@ -45,4 +83,6 @@ int main()
     m = matrix_new(10, 10);
     
     fill_and_print_10x10_int_matix(m);
+
+    replace_row_with_int_vector(m);
 }
