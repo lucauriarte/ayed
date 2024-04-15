@@ -144,6 +144,54 @@ void add_two_random_int_matrix()
     matrix_print(m3, print_int);
 }
 
+int add_vector_to_matrix_rows(matrix* m, vector* v)
+{
+    int status = 0;
+    int* value = NULL;
+    if((m != NULL) && (v != NULL) && (matrix_columns(m) == vector_size(v)))
+    {
+        for (int i=0; i<matrix_rows(m); i++)
+        {
+            for (int j=0; j<matrix_columns(m); j++)
+            {
+                value = (int*)matrix_get(m, i, j);
+                *value += vector_get(v, j);
+                matrix_set(m, i, j, value);
+            }
+        }
+    }
+    else 
+    {
+        status = -1;
+    }
+    return status;
+}
+
+void add_random_vector_to_random_matrix()
+{
+    matrix* m = matrix_new(3, 3);
+    vector* v = vector_new(3);
+    int aux = 0;
+
+    fill_matrix(m, 10);
+
+    while(!vector_isfull(v))
+    {
+        aux = rand() % 10;
+        vector_add(v, aux);
+    }
+
+    printf("\nSuma de un vector a cada fila de una matriz:\n");
+    printf("\nMatrix original:\n");
+    matrix_print(m, print_int);
+    printf("\nVector:\n");
+    vector_print(v, print_int_v);
+
+    add_vector_to_matrix_rows(m, v);
+    printf("\nMatriz luego de agregarle el vector:\n");
+    matrix_print(m, print_int);
+}
+
 int main()
 {
     matrix* m = NULL;
@@ -159,4 +207,6 @@ int main()
     replace_with_int_vector(m, replace_col);
 
     add_two_random_int_matrix();
+
+    add_random_vector_to_random_matrix();
 }
