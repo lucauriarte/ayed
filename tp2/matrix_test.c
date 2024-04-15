@@ -58,7 +58,7 @@ int replace_row(matrix* m, int row, vector* v)
     return status;
 }
 
-void replace_row_with_int_vector(matrix* m)
+void replace_with_int_vector(matrix* m, int replace(matrix*, int, vector*))
 {
     int aux = 0;
     vector* v = vector_new(10);
@@ -67,12 +67,12 @@ void replace_row_with_int_vector(matrix* m)
         aux = rand() % 10;
         vector_add(v, aux);
     }
-    printf("Matrix original:\n");
+    printf("\nMatrix original:\n");
     matrix_print(m, print_int);
-    printf("Vector:\n");
+    printf("\nVector:\n");
     vector_print(v, print_int_v);
-    replace_row(m, 0, v);
-    printf("Matriz modificada:\n");
+    replace(m, 0, v);
+    printf("\nMatriz modificada:\n");
     matrix_print(m, print_int);
 }
 
@@ -84,5 +84,6 @@ int main()
     
     fill_and_print_10x10_int_matix(m);
 
-    replace_row_with_int_vector(m);
+    printf("\nReemplazo de una fila por un vector de enteros:\n");
+    replace_with_int_vector(m, replace_row);
 }
