@@ -31,19 +31,18 @@ void fill_matrix(matrix* m, int max)
 
 void fill_and_print_10x10_int_matix(matrix* m)
 {
-    printf("Este procedimiento crea una matrix de 10x10, llama a otro procedimiento que llena la matriz con numeros aleatorios, y luego la imprime\n");
-
-    m = matrix_new(10, 10);
+    printf("Este procedimiento llena una matriz de 10x10 con numeros aleatorios, y luego la imprime\n");
 
     fill_matrix(m, 20);
 
     matrix_print(m, print_int);
-
-    matrix_free(m); 
 }
 
 int main()
 {
     matrix* m = NULL;
+
+    m = matrix_new(10, 10);
+    
     fill_and_print_10x10_int_matix(m);
 }
