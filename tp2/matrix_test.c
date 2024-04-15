@@ -58,6 +58,26 @@ int replace_row(matrix* m, int row, vector* v)
     return status;
 }
 
+int replace_col(matrix* m, int col, vector* v) 
+{
+    int status = 0;
+    int* value = NULL;
+    if((m != NULL) && (v != NULL) && (matrix_rows(m) == vector_size(v)))
+    {
+        for (int i=0; i<matrix_rows(m); i++)
+        {
+            value = (int*)matrix_get(m, i, col);
+            *value = vector_get(v, i);
+            matrix_set(m, i, col, value);
+        }
+    }
+    else 
+    {
+        status = -1;
+    }
+    return status;
+}
+
 void replace_with_int_vector(matrix* m, int replace(matrix*, int, vector*))
 {
     int aux = 0;
@@ -86,4 +106,7 @@ int main()
 
     printf("\nReemplazo de una fila por un vector de enteros:\n");
     replace_with_int_vector(m, replace_row);
+
+    printf("\nReemplazo de una columna por un vector de enteros:\n");
+    replace_with_int_vector(m, replace_col);
 }
