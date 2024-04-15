@@ -81,6 +81,7 @@ int replace_col(matrix* m, int col, vector* v)
 void replace_with_int_vector(matrix* m, int replace(matrix*, int, vector*))
 {
     int aux = 0;
+    int status = 0;
     vector* v = vector_new(10);
     while(!vector_isfull(v))
     {
@@ -91,9 +92,15 @@ void replace_with_int_vector(matrix* m, int replace(matrix*, int, vector*))
     matrix_print(m, print_int);
     printf("\nVector:\n");
     vector_print(v, print_int_v);
-    replace(m, 0, v);
-    printf("\nMatriz modificada:\n");
-    matrix_print(m, print_int);
+    status = replace(m, 0, v);
+    if(status == 0)
+    {
+        printf("\nMatriz modificada:\n");
+        matrix_print(m, print_int);
+    }
+    else {
+        printf("Error al reemplazar\n");
+    }
 }
 
 int main()
