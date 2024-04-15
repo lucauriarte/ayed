@@ -103,6 +103,47 @@ void replace_with_int_vector(matrix* m, int replace(matrix*, int, vector*))
     }
 }
 
+matrix* add_int_matrix(matrix* m1, matrix*m2)
+{
+    matrix* res = NULL;
+    if((matrix_columns(m1) == matrix_columns(m2)) && (matrix_rows(m1) == matrix_rows(m2)))
+    {
+        res = matrix_new(matrix_rows(m1), matrix_columns(m1));
+        for (int i=0; i<matrix_rows(m1); i++)
+        {
+            for (int j=0; j<matrix_columns(m1); j++)
+            {
+                int* value = (int*)malloc(sizeof(int));
+                *value = *(int*)matrix_get(m1, i, j) + *(int*)matrix_get(m2, i, j);
+                matrix_set(res, i, j, value);
+            }
+        }
+    }
+
+    return res;
+}
+
+void add_two_random_int_matrix()
+{
+    matrix* m1;
+    matrix* m2;
+    matrix* m3;
+    
+    m1 = matrix_new(3, 3);
+    fill_matrix(m1, 10);
+    printf("Matriz 1:\n");
+    matrix_print(m1, print_int);
+
+    m2 = matrix_new(3, 3);
+    fill_matrix(m2, 10);
+    printf("Matriz 2:\n");
+    matrix_print(m2, print_int);
+
+    m3 = add_int_matrix(m1, m2);
+    printf("Matriz 1 + Matriz 2:\n");
+    matrix_print(m3, print_int);
+}
+
 int main()
 {
     matrix* m = NULL;
@@ -116,4 +157,6 @@ int main()
 
     printf("\nReemplazo de una columna por un vector de enteros:\n");
     replace_with_int_vector(m, replace_col);
+
+    add_two_random_int_matrix();
 }
