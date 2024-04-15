@@ -128,19 +128,21 @@ void add_two_random_int_matrix()
     matrix* m1;
     matrix* m2;
     matrix* m3;
+
+    printf("\nSuma de dos matrices de enteros:\n");
     
     m1 = matrix_new(3, 3);
     fill_matrix(m1, 10);
-    printf("Matriz 1:\n");
+    printf("\nMatriz 1:\n");
     matrix_print(m1, print_int);
 
     m2 = matrix_new(3, 3);
     fill_matrix(m2, 10);
-    printf("Matriz 2:\n");
+    printf("\nMatriz 2:\n");
     matrix_print(m2, print_int);
 
     m3 = add_int_matrix(m1, m2);
-    printf("Matriz 1 + Matriz 2:\n");
+    printf("\nMatriz 1 + Matriz 2:\n");
     matrix_print(m3, print_int);
 }
 
