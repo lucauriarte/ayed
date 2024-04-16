@@ -2,6 +2,7 @@
 #include "../tda/vector/vector.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 
 void print_int(void* value)
@@ -246,6 +247,80 @@ void multiply_two_random_int_matrix()
     free(m2);
     free(m3);
 }
+matrix* eliminarFilaColumna(matrix* m, int fila, int columna) {
+    if (m == NULL || fila >= matrix_rows(m) || columna >= matrix_columns(m)) {
+        return NULL; // Manejo de error si la matriz es nula o las coordenadas están fuera de rango
+    }
+
+    matrix* nuevaMatriz = matrix_new(matrix_rows(m) - 1, matrix_columns(m) - 1);
+
+    // Copiar elementos omitiendo la fila y columna especificadas
+    for (int i = 0; i < matrix_rows(m); i++) {
+        for (int j = 0; j < matrix_columns(m); j++) {
+            // Saltar la fila y la columna especificadas
+            if (i != fila && j != columna) {
+                int* value = (int*)malloc(sizeof(int));
+                *value = *(int*)matrix_get(m, i, j);
+                // Ajustar índices para la nueva matriz
+                int nuevaFila = (i < fila) ? i : i - 1;
+                int nuevaColumna = (j < columna) ? j : j - 1;
+                matrix_set(nuevaMatriz, nuevaFila, nuevaColumna, value);
+            }
+        }
+    }
+
+    return nuevaMatriz;
+}
+
+int determinant(matrix* m)
+{
+    int det = 0;
+    int size = 0;
+    matrix* reduced_m;
+
+    size = matrix_rows(m);
+    if((m != NULL) && (size == matrix_columns(m)))
+    {
+        if(size == 1)
+        {
+            det = *(int*)matrix_get(m, 0, 0);
+        }
+        else if(size == 2)
+        {
+            det = *(int*)matrix_get(m, 0, 0) * *(int*)matrix_get(m, 1, 1) - *(int*)matrix_get(m, 0, 1) * *(int*)matrix_get(m, 1, 0);
+        }
+        else 
+        {
+            for (int i=0; i<size; i++)
+            {
+                for (int j=0; j<size; j++)
+                {
+                    reduced_m = eliminarFilaColumna(m, i, j);
+                    printf("\nMatriz reducida eliminando la fila %i y la columna %i\n", i, j);
+                    matrix_print(reduced_m, print_int);
+                    det += *(int*)matrix_get(m, i, j) * pow(-1, (i+1)+(j+1)) * determinant(reduced_m);
+
+                    printf("\n Determinante:%i\n", det);
+                }
+            }
+        }
+    }
+    return det;
+}
+
+void calc_matrix_determinant()
+{
+    matrix * m = NULL;
+    int det = 0;
+
+    printf("\nCalculo del determinante de una matrix:\n");
+    m = matrix_new(3, 3);
+    fill_matrix(m, 10);
+    printf("\nMatriz:\n");
+    matrix_print(m, print_int);
+    det = determinant(m);
+    printf("\nEl determinante de la matriz es: %i\n", det);
+}
 
 int main()
 {
@@ -266,4 +341,6 @@ int main()
     add_random_vector_to_random_matrix();
 
     multiply_two_random_int_matrix();
+
+    calc_matrix_determinant();
 }
