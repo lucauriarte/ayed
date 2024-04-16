@@ -194,6 +194,59 @@ void add_random_vector_to_random_matrix()
     matrix_print(m, print_int);
 }
 
+matrix* multiply_matrix(matrix* m1, matrix* m2)
+{
+    matrix* res = NULL;
+
+    if(matrix_columns(m1) == matrix_rows(m2))
+    {
+        res = matrix_new(matrix_rows(m1), matrix_columns(m2));
+
+        for (int i=0; i<matrix_rows(m1); i++)
+        {
+            for (int j=0; j<matrix_columns(m2); j++)
+            {
+                int* value = (int*)malloc(sizeof(int));   
+                *value = 0;
+                for (int k = 0; k<matrix_columns(m1); k++)
+                {
+                    *value += *(int*)matrix_get(m1, i, k) * *(int*)matrix_get(m2, k, j);
+                }
+                matrix_set(res, i, j, value);
+            }
+        }
+    }
+    
+    return res;
+}
+
+void multiply_two_random_int_matrix()
+{
+    matrix* m1;
+    matrix* m2;
+    matrix* m3;
+
+    printf("\nMultiplicacion de dos matrices de enteros:\n");
+    
+    m1 = matrix_new(3, 2);
+    fill_matrix(m1, 10);
+    printf("\nMatriz 1:\n");
+    matrix_print(m1, print_int);
+
+    m2 = matrix_new(2, 3);
+    fill_matrix(m2, 10);
+    printf("\nMatriz 2:\n");
+    matrix_print(m2, print_int);
+
+    m3 = multiply_matrix(m1, m2);
+    printf("\nMatriz 1 * Matriz 2:\n");
+    matrix_print(m3, print_int);
+
+    free(m1);
+    free(m2);
+    free(m3);
+}
+
 int main()
 {
     matrix* m = NULL;
@@ -211,4 +264,6 @@ int main()
     add_two_random_int_matrix();
 
     add_random_vector_to_random_matrix();
+
+    multiply_two_random_int_matrix();
 }
