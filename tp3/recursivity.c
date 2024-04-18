@@ -57,6 +57,20 @@ void print_fibonacci_less_than_x(int x, int index) {
     }
 }
 
+float recursive_pow(int x, int n)
+{
+    float res = 1;
+    if (n > 0)
+    {
+        res = x * recursive_pow(x , n-1);
+    }
+    else if (n < 0)
+    {
+        res = (1.0/x) * recursive_pow(x , n+1);
+    }
+    return res;
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -74,4 +88,8 @@ int main()
     printf("Fibonacci para los terminos menores a 10: ");
     print_fibonacci_less_than_x(10, 1);
     printf("\n");
+
+    //Desarrollar una función que calcule recursivamente el valor x^n. Considerar que tanto x como n puedan ser negativos.
+    printf("2 elevado a 4: %f\n", recursive_pow(2,4));
+    printf("2 elevado a -4: %f\n", recursive_pow(2,-4));
 }
