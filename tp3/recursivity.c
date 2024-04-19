@@ -71,6 +71,26 @@ float recursive_pow(int x, int n)
     return res;
 }
 
+int digits_are_crescent(int a)
+{
+    int are_crescent = 1;
+    int last_digit = a % 10;
+    a /= 10;
+
+    if (a > 0)
+    {
+        if(last_digit > a % 10)
+        {
+            return digits_are_crescent(a);
+        }
+        else 
+        {
+            are_crescent = 0;
+        }
+    }
+    return are_crescent;
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -92,4 +112,15 @@ int main()
     //Desarrollar una función que calcule recursivamente el valor x^n. Considerar que tanto x como n puedan ser negativos.
     printf("2 elevado a 4: %f\n", recursive_pow(2,4));
     printf("2 elevado a -4: %f\n", recursive_pow(2,-4));
+
+    //Desarrollar una función recursiva que determine si los dígitos de un número natural están dispuestos de forma creciente
+    int num = 1579;
+    if(digits_are_crescent(num))
+    {
+        printf("Los digitos del numero %i estan ordenados de forma creciente\n", num);   
+    }
+    else
+    {
+        printf("Los digitos del numero %i no estan ordenados de forma creciente\n", num);
+    }
 }
