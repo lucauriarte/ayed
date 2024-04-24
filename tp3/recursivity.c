@@ -91,6 +91,26 @@ int digits_are_crescent(int a)
     return are_crescent;
 }
 
+void print_inverted_count_to(int n)
+{
+    int aux = 0;
+    if(n == 1)
+    {
+        printf("1\n");
+    }
+    else
+    {
+        print_inverted_count_to(n - 1);
+        aux = n;
+        while (aux > 0)
+        {
+            printf("%i ", aux);
+            aux--;
+        }
+        printf("\n");
+    }
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -123,4 +143,6 @@ int main()
     {
         printf("Los digitos del numero %i no estan ordenados de forma creciente\n", num);
     }
+
+    print_inverted_count_to(5);
 }
