@@ -150,6 +150,21 @@ float vector_float_min(vector* v, int count)
     return min;
 }
 
+float vector_float_add(vector* v, int index)
+{
+    float sum = 0;
+
+    if(index == vector_size(v) - 1)
+    {
+        sum = vector_get(v, index);
+    }
+    else
+    {
+        sum = vector_get(v, index) + vector_float_add(v, index + 1);
+    }
+    return sum;
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -193,4 +208,5 @@ int main()
 
     printf("Maximo en el vector de numeros reales: %f\n", vector_float_max(v, vector_size(v) - 1));
     printf("Minimo en el vector de numeros reales: %f\n", vector_float_min(v, vector_size(v) - 1));
+    printf("Suma de los elementos del vector de numeros reales: %f\n", vector_float_add(v, 0));
 }
