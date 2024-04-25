@@ -191,6 +191,6 @@ int main()
     vector_add(v, 1.5);
     vector_add(v, 7.6);
 
-    printf("Maximo en el vector de numeros reales: %f\n", vector_float_max(v, vector_size(v)));
+    printf("Maximo en el vector de numeros reales: %f\n", vector_float_max(v, vector_size(v) - 1));
     printf("Minimo en el vector de numeros reales: %f\n", vector_float_min(v, vector_size(v) - 1));
 }
