@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "vector_float/vector.h"
 
 int add_from_zero_to(int n)
 {
@@ -111,6 +112,25 @@ void print_inverted_count_to(int n)
     }
 }
 
+float vector_float_max(vector* v, int count)
+{
+    float max = 0;
+    float a = 0;
+    float b = 0;
+
+    if(count == 0)
+    {
+        max = vector_get(v, count);
+    }
+    else
+    {
+        a = vector_float_max(v, count - 1);
+        b = vector_get(v, count);
+        max = a > b ? a : b;
+    }
+    return max;
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -145,4 +165,12 @@ int main()
     }
 
     print_inverted_count_to(5);
+
+    vector* v = vector_new(4);
+    vector_add(v, 0.2);
+    vector_add(v, 5);
+    vector_add(v, 1.5);
+    vector_add(v, 7.6);
+
+    printf("Maximo en el vector de numeros reales: %f\n", vector_float_max(v, vector_size(v)));
 }
