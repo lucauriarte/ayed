@@ -180,6 +180,24 @@ float vector_float_average(vector* v, int index)
     return avg;
 }
 
+void vector_float_print(vector* v, int size)
+{
+    if (size > 0) 
+    {
+        vector_float_print(v, size - 1);
+        printf("%f ", vector_get(v, (size - 1)));
+    }
+}
+
+void vector_float_print_inverted(vector* v, int size)
+{
+    if (size > 0) 
+    {
+        printf("%f ", vector_get(v, (size - 1)));
+        vector_float_print(v, size - 1);
+    }
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -225,4 +243,10 @@ int main()
     printf("Minimo en el vector de numeros reales: %f\n", vector_float_min(v, vector_size(v) - 1));
     printf("Suma de los elementos del vector de numeros reales: %f\n", vector_float_add(v, 0));
     printf("Promedio de los elementos del vector de numeros reales: %f\n", vector_float_average(v, 0));
+    printf("Vector de flotantes:\n");
+    vector_float_print(v, vector_size(v));
+    printf("\n");
+    printf("Vector de flotantes invertido:\n");
+    vector_float_print_inverted(v, vector_size(v));
+    printf("\n");
 }
