@@ -103,16 +103,49 @@ void sll_remove_duplicated_elements(sll_node** a_node, int cmp(t_elem, t_elem))
     }
 }
 
+sll_node* sll_merge_sorted(sll_node* head1, sll_node* head2, int cmp(t_elem, t_elem))
+{
+    sll_node* result = NULL;
+
+    if (head2 == NULL) 
+    {
+        result = head1;
+    } 
+    else if (head1 == NULL) 
+    {
+        result = head2;
+    } 
+    else 
+    {
+        if (cmp(head1->data, head2->data) < 0) 
+        {            
+            result = head1;
+            result->next = sll_merge_sorted(head1->next, head2, cmp);
+        } 
+        else
+        {
+            result = head2;
+            result->next = sll_merge_sorted(head1, head2->next, cmp);
+        }
+    }
+    return result;
+}
+
 int main()
 {
     sll_node* head = NULL;
+    sll_node* head2 = NULL;
     
     sll_add_node(&head, sll_new_node(1));
     sll_add_node(&head, sll_new_node(3));
-    sll_add_node(&head, sll_new_node(4));
+    sll_add_node(&head, sll_new_node(1));
     sll_add_node(&head, sll_new_node(8));
-    sll_add_node(&head, sll_new_node(3));
-    sll_add_node(&head, sll_new_node(4));
+    sll_add_node(&head, sll_new_node(8));
+
+    sll_add_node(&head2, sll_new_node(2));
+    sll_add_node(&head2, sll_new_node(5));
+    sll_add_node(&head2, sll_new_node(7));
+
 
     //Eliminar todos los elementos repetidos de una lista dinámica simplemente enlazada (SSL).
     printf("Lista antes de eliminar los elementos repetidos:\n");
@@ -120,6 +153,17 @@ int main()
     printf("\n");
     sll_remove_duplicated_elements(&head, int_cmp);
     printf("Lista despues de eliminar los elementos repetidos:\n");
+    sll_print(head, print_int);
+    printf("\n");
+
+    printf("Lista 1:\n");
+    sll_print(head, print_int);
+    printf("\n");
+    printf("Lista 2:\n");
+    sll_print(head2, print_int);
+    printf("\n");
+    printf("Listas fusionadas:\n");
+    sll_merge_sorted(head, head2, int_cmp);
     sll_print(head, print_int);
     printf("\n");
 }
