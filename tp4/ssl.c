@@ -131,6 +131,20 @@ sll_node* sll_merge_sorted(sll_node* head1, sll_node* head2, int cmp(t_elem, t_e
     return result;
 }
 
+int is_sorted(sll_node** node,  int cmp(t_elem, t_elem))
+{
+    int sorted = 1;
+    while((*node)->next != NULL)
+    {
+        if(cmp((*node)->data, (*node)->next->data) > 0)
+        {
+            sorted = 0;
+        }
+        node = &(*node)->next;
+    }
+    return sorted;
+}
+
 int main()
 {
     sll_node* head = NULL;
@@ -166,4 +180,13 @@ int main()
     sll_merge_sorted(head, head2, int_cmp);
     sll_print(head, print_int);
     printf("\n");
+
+    if(is_sorted(&head, int_cmp))
+    {
+        printf("La lista 1 esta ordenada\n");
+    }
+    else
+    {
+        printf("La lista 1 esta desordenada\n");
+    }
 }
