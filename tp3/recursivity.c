@@ -165,6 +165,21 @@ float vector_float_add(vector* v, int index)
     return sum;
 }
 
+float vector_float_average(vector* v, int index)
+{
+    float avg = 0;
+
+    if(index == vector_size(v) - 1)
+    {
+        avg = vector_get(v, index);
+    }
+    else
+    {
+        avg = (vector_get(v, index) + vector_float_add(v, index + 1)) / vector_size(v);
+    }
+    return avg;
+}
+
 int main()
 {
     //Calcular en forma recursiva la suma de los n primeros números naturales
@@ -209,4 +224,5 @@ int main()
     printf("Maximo en el vector de numeros reales: %f\n", vector_float_max(v, vector_size(v) - 1));
     printf("Minimo en el vector de numeros reales: %f\n", vector_float_min(v, vector_size(v) - 1));
     printf("Suma de los elementos del vector de numeros reales: %f\n", vector_float_add(v, 0));
+    printf("Promedio de los elementos del vector de numeros reales: %f\n", vector_float_average(v, 0));
 }
