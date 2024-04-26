@@ -184,6 +184,25 @@ void sll_invert(sll_node** p_head)
     *p_head = prev;
 }
 
+int sll_get_min(sll_node* n)
+{
+    int min = 0;
+    int a = 0;
+    int b = 0;
+
+    if(n->next == NULL)
+    {
+        min = n->data;
+    }
+    else
+    {
+        a = n->data;
+        b = sll_get_min(n->next);
+        min = a < b ? a : b;
+    }
+    return min;
+}
+
 int main()
 {
     sll_node* head = NULL;
@@ -237,4 +256,6 @@ int main()
     printf("Lista 1 invertida:\n");
     sll_print(head, print_int);
     printf("\n");
+
+    printf("Minimo de la lista 1: %i\n", sll_get_min(head));
 }
