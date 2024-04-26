@@ -169,6 +169,21 @@ sll_node* sll_new_inverted(sll_node* node)
     return inverted;
 }
 
+void sll_invert(sll_node** p_head)
+{
+    sll_node* prev = NULL;
+    sll_node* curr = *p_head;
+    sll_node* next = NULL;
+    while(curr != NULL)
+    {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    *p_head = prev;
+}
+
 int main()
 {
     sll_node* head = NULL;
@@ -216,5 +231,10 @@ int main()
 
     printf("Copia de la lista 1 invertida:\n");
     sll_print(sll_new_inverted(head), print_int);
+    printf("\n");
+
+    sll_invert(&head);
+    printf("Lista 1 invertida:\n");
+    sll_print(head, print_int);
     printf("\n");
 }
