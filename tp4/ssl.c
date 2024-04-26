@@ -145,6 +145,30 @@ int is_sorted(sll_node** node,  int cmp(t_elem, t_elem))
     return sorted;
 }
 
+sll_node* sll_add_node_front(sll_node** a_list, sll_node* new_node)
+{
+    if (new_node != NULL)
+    {
+        new_node->next = *a_list;
+        *a_list = new_node;
+    }
+    return new_node;
+}
+
+sll_node* sll_new_inverted(sll_node* node)
+{
+    sll_node* inverted = NULL;
+    if(node != NULL)
+    {
+        while (node != NULL)
+        {
+            sll_add_node_front(&inverted, sll_new_node(node->data));
+            node = node->next;
+        }
+    }
+    return inverted;
+}
+
 int main()
 {
     sll_node* head = NULL;
@@ -189,4 +213,8 @@ int main()
     {
         printf("La lista 1 esta desordenada\n");
     }
+
+    printf("Copia de la lista 1 invertida:\n");
+    sll_print(sll_new_inverted(head), print_int);
+    printf("\n");
 }
