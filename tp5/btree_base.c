@@ -66,21 +66,6 @@ void btn_free(btn** node)
         btn_free(&(*node)->right);    
         free(*node);
         *node = NULL;
-        /*
-        if((*node)->right == NULL && (*node)->left == NULL)
-        {
-            free(*node);
-        }
-        else if((*node)->right != NULL)
-        {
-            btn_free(&(*node)->right);
-        }
-        else if((*node)->left != NULL)
-        {
-            btn_free(&(*node)->left);
-        }
-        *node = NULL;
-        */
     }    
 }
 
@@ -93,10 +78,14 @@ btn** btn_find(btn** node, t_elem_btree value, int cmp(t_elem_btree, t_elem_btre
 {
     btn** found = node;
 
+    if (*node == NULL) {
+        return NULL;
+    }
+
     if((*node != NULL) && (cmp((*node)->value, value) != 0))
     {
         found = btn_find(&(*node)->left, value, cmp);
-        if(*found == NULL)
+        if(found == NULL)
         {
             found = btn_find(&(*node)->right, value, cmp);
         }

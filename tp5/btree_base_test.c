@@ -66,8 +66,6 @@ void btn_do_print_ctx (btn* node, void* ctx){
     printf("%s ", str);
 }
 
-
-
 int main() {
     btn* root = NULL;
     btn_insert_value(&root, 5);
