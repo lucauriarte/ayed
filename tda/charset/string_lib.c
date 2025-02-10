@@ -20,9 +20,10 @@ char* string_get_common_chars(char string_array[][MAX_CHARS], uint8_t num_string
         charset_add_str(p_strings[i], string_array[i]);
     }
 
-    for (int i=0 ; i < (num_strings -1) ; i++) 
+    p_res = charset_intersection(p_strings[0], p_strings[1]);
+    for (int i=2 ; i < num_strings ; i++) 
     {
-        p_res = charset_intersection(p_strings[i], p_strings[i+1]);
+        p_res = charset_intersection(p_res, p_strings[i]);
     }
 
     res = charset_tostring(p_res);
