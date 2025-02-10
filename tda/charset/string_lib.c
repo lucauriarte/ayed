@@ -70,33 +70,25 @@ uint8_t string_words_count(char* string)
 uint8_t string_valid_usernames(char usernames[][MAX_CHARS], uint8_t num_usernames)
 {
     uint8_t valid_usernames = 0;
-    pcharset invalid_chars = NULL;
+    pcharset valid_chars = NULL;
     pcharset usernames_ch[MAX_STRINGS];
     pcharset intersetion = NULL;
-    char* intersetion_string;
+    char* p_username;
 
-    invalid_chars = charset_init();
+    valid_chars = charset_init();
 
-    charset_add_range(invalid_chars, '0', '9');
-    charset_add_range(invalid_chars, 'a', 'z');
-    charset_add_range(invalid_chars, 'A', 'Z');
-    
-    for (int i=0 ; i < MAX_CHARS ; i++)
-    {
-        invalid_chars->v[i] = !invalid_chars->v[i];
-    }
+    charset_add_range(valid_chars, '0', '9');
+    charset_add_range(valid_chars, 'a', 'z');
+    charset_add_range(valid_chars, 'A', 'Z');
 
     for (int i=0 ; i < num_usernames ; i++) 
     {
-        usernames_ch[i] = charset_init();
-        charset_add_str(usernames_ch[i], usernames[i]);
-    }
-
-    for (int i=0 ; i < num_usernames ; i++) 
-    {
-        intersetion = charset_intersection(usernames_ch[i], invalid_chars);
-        intersetion_string = charset_tostring(intersetion);
-        if (*intersetion_string ==  '\0')
+        p_username = usernames[i];
+        while (*p_username != '\0' && charset_in(valid_chars, *p_username))
+        {
+            p_username++;
+        }
+        if(*p_username == '\0')
         {
             valid_usernames++;
         }
