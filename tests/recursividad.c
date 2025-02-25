@@ -77,6 +77,21 @@ int array_min(int a[], int n)
 
 }
 
+int array_min_2(int a[], int n) {
+    int min = 0;
+    if(n == 1)
+    {
+        return a[0];
+    }
+
+    min = array_min_2(a, n-1);
+    if(a[n-1] < min)
+    {
+        min = a[n-1];
+    }
+    return min;
+}
+
 int main()
 {
     int test[5] = {2,4,5,8,10};
