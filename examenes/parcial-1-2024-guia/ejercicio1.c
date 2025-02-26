@@ -12,14 +12,18 @@ typedef struct _node {
 
 // Crear un nodo de lista
 node* node_new(int value) {
-    /**COMPLETAR**/
-    return NULL; //reemplazar el resultado por el nodo creado
+    node* n = malloc(sizeof(node));
+    n->value = value;
+    n->next = NULL;
+    return n; //reemplazar el resultado por el nodo creado
 }
 
 // Agregar un nodo primero a la lista
 // y devolver el nodo agregado
 void list_add_first(node** head, int value) {
-    /**COMPLETAR**/
+    node *new_head = node_new(value);
+    new_head->next = *head;
+    *head = new_head;
 }
 
 // Imprimir una lista, con un nombre. 
@@ -36,19 +40,47 @@ void list_print(node* n, char* list_name) {
 // Calcular la suma de los elementos de la lista
 // en forma iterativa, utilizando una variable auxiliar sum inicializada en cero
 int list_sum(node* n) {
-    /**COMPLETAR**/
+    int sum = 0;
+    while (n != NULL) {
+        sum += n->value;
+        n = n->next;
+    }
+    return sum;
 }
 
 // Calcular el promedio de los elementos de la lista
 // en forma iterativa, utilizando dos variables auxiliares: sum y count
 // (basado en la función list_sum)
 float list_avg(node* n) {
-    /**COMPLETAR**/
+    int sum = 0;
+    int count = 0;
+    if(n == NULL) return 0;
+
+    while (n != NULL) {
+        sum += n->value;
+        n = n->next;
+        count++;
+    }
+    return (float)sum / count;
 }
 
 // Insertar en la lista un nodo en orden asendente (según el valor)
 void list_insert_sorted(node** head, node* n) {    
-    /**COMPLETAR**/
+    if(n == NULL || head == NULL) return;
+
+    //Si al lista esta vacia o n va al inicio
+    if(*head == NULL || n->value < (*head)->value) {
+        n->next = *head;
+        *head = n;
+        return;
+    }
+    //Caso general
+    node* current = *head;
+    while (current->next != NULL && current->next->value < n->value) { 
+        current = current->next;
+    }
+    n->next = current->next;
+    current->next = n;
 }
 
 // Definir un nodo de SLL con un campo "prom" float y un puntero a una lista de enteros
@@ -62,15 +94,33 @@ typedef struct _node_p {
 // Crear un node_p recibiendo como parámentro de entrada una lista de enteros
 // Utilizar la funcion list_avg para completar el campo "prom"
 node_p* node_p_new(node* list) {
-    /**COMPLETAR**/
-    return NULL; //reemplazar el resultado por el nodo creado
+    node_p* new_node = NULL;
+    new_node = malloc(sizeof(node_p));
+    new_node->list = list;
+    new_node->prom = list_avg(list);
+    new_node->next = NULL;
+    return new_node; //reemplazar el resultado por el nodo creado
 }
 
 // Insertar en la lista de promedios en orden descendente (según el promedio)
 // tener en cuenta que el campo "prom" ya está calculado, y se recibe un nodo_p
 // tomar como base la función list_insert_sorted
 void list_insert_sorted_prom(node_p** head, node_p* n) {
-    /**COMPLETAR**/
+    if(n == NULL || head == NULL) return;
+
+    //Si al lista esta vacia o n va al inicio
+    if(*head == NULL || n->prom > (*head)->prom) {
+        n->next = *head;
+        *head = n;
+        return;
+    }
+    //Caso general
+    node_p* current = *head;
+    while (current->next != NULL && current->next->prom > n->prom) { 
+        current = current->next;
+    }
+    n->next = current->next;
+    current->next = n;
 }
 
 // Imprimir una lista de promedios, con un nombre.
@@ -98,8 +148,15 @@ void list_print_prom(node_p* n, char* list_name) {
 // tener en cuenta que se debe liberar la memoria del nodo extraído 
 // y devolver la lista que contiene
 node* list_extract_first(node_p** head) {
-    /**Completar**/
-    return NULL; //reemplazar el resultado por la lista extraída
+    node* list = NULL;
+    if (*head != NULL)
+    {
+        node_p* prev_head = *head;
+        list = (*head)->list;
+        *head = (*head)->next;
+        free(prev_head);
+    }   
+    return list; //reemplazar el resultado por la lista extraída
 }
 
 // Hacer una función que imprima una pila (stack) de listas de enteros
@@ -108,14 +165,38 @@ node* list_extract_first(node_p** head) {
 // luego volver a ponerlos en la pila original
 // tener en cuenta que se debe liberar la memoria de la pila auxiliar
 void stack_print(stack* s) {
-    /**COMPLETAR**/
+    stack* aux = stack_new(stack_getsize(s));
+    node* list = NULL;
+
+    while(!stack_isempty(s))
+    {
+        list = pop(s);
+        list_print(list, "Lista");
+        push(aux, list);
+    }
+
+    while(!stack_isempty(aux))
+    {
+        push(s, pop(aux));
+    }
+    stack_free(aux);
 }
 
 // Recibir una pila (stack) de listas de enteros
 // vaciar la pila y agregar cada elemento a una lista de promedios (utilizando la función list_insert_sorted_prom)
 // vaciar la lista de promedios agregando cada lista a la pila (utilizando list_extract_first)
 void stack_sort_avg (stack* s) {
-    /**COMPLETAR**/
+    node_p* p_list = NULL;
+    node* aux = NULL;
+
+    while(!stack_isempty(s))
+    {
+        list_insert_sorted_prom(&p_list, node_p_new(pop(s)));
+    }
+    while((aux = list_extract_first(&p_list)) != NULL)
+    {
+        push(s, aux);
+    }
 }
 
 int main (int argc, char *argv[]) {
