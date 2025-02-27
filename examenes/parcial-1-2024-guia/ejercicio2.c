@@ -12,14 +12,20 @@ typedef struct _node {
 
 //Crear un nodo de lista
 node* node_new(fraction* value) {
-    /**COMPLETAR**/
-    return NULL; //reemplazar el resultado por el nodo creado
+    node* new_node = malloc(sizeof(node));
+    new_node->value = value;
+    new_node->next = NULL;
+    return new_node; //reemplazar el resultado por el nodo creado
 }
 
 // Agregar un nodo al final de la lista
 // y devolver el nodo agregado (para poder utilizarlo como el ultimo)
 node* list_add_last(node** head, node* n) {    
-    /**COMPLETAR**/
+    while(*head != NULL)
+    {
+        head = &(*head)->next;
+    }
+    *head = n;
     return n;
 }
 
@@ -40,7 +46,7 @@ void list_print(node* n, char* list_name) {
 // utilizar node_new para crear el nuevo nodo (ya queda con NULL, en next)
 // devolver el puntero al nuevo nodo
 node* node_clone(node* n) {
-    return NULL; // completar remplazando el NULL (una sola linea de código)
+    return node_new(fraction_new(fraction_get_num(n->value), fraction_get_den(n->value))); // completar remplazando el NULL (una sola linea de código)
 }
 
 // Clonar una lista y su contenido.
@@ -51,7 +57,11 @@ node* node_clone(node* n) {
 // ¿es eficiente? no, se recorrer toda la lista clonada con cada invocación a list_add_last
 node* list_clone(node* head) {
     node* clone = NULL;
-    /**COMPLETAR while... **/
+    while(head != NULL)
+    {
+        list_add_last(&clone, node_clone(head));
+        head = head->next;
+    }
     return clone;
 }
 
@@ -62,7 +72,11 @@ node* list_clone(node* head) {
 // devolver el puntero al primer nodo de la lista clonada
 node* list_clone_recursive(node* head) {
     node* clone = NULL;
-    /**COMPLETAR if... **/
+    if(head != NULL)
+    {
+        list_add_last(&clone, node_clone(head));
+        list_add_last(&clone, list_clone_recursive(head->next));
+    }
     return clone;
 }
 
@@ -74,7 +88,12 @@ node* list_clone_recursive(node* head) {
 // preguntando por *head distinto de NULL y *head distinto de n
 // si devuelve un puntero con un puntero a NULL, el nodo no está en la lista
 node** list_search(node** head, node* n) {
-    /**COMPLETAR while... **/
+    
+    while(*head != NULL && *head != n)
+    {
+        head = &(*head)->next;
+    }
+
     return head; //se puede usar head como auxiliar para devolver el resultado
 }
 
@@ -85,7 +104,10 @@ node** list_search(node** head, node* n) {
 // se puede re-utilizar head (porque es local) 
 // para recibir el resultado de la invocación recursiva
 node** list_search_recursive(node** head, node* n) {
-    /**COMPLETAR if... **/
+    if(*head != NULL && *head != n)
+    {
+        return list_search_recursive(&(*head)->next, n);
+    }
     return head;
 }
 
@@ -96,8 +118,17 @@ node** list_search_recursive(node** head, node* n) {
 // si no encuentra el doble puntero de la segunda lista apuntando a NULL
 // utilizando la función list_search
 node** list_intersection(node** list_a, node** list_b) {
-    /**COMPLETAR**/
-    return NULL; //Reemplazar por el resultado de la búsqueda
+    node** intersection;
+    do
+    {
+        intersection = list_search(list_b, *list_a);
+        if(*intersection == NULL)
+        {
+            list_a = &(*list_a)->next;
+        }
+    }while(*list_a != NULL && *intersection == NULL);
+
+    return intersection; //Reemplazar por el resultado de la búsqueda
 }
 
 
@@ -106,21 +137,40 @@ node** list_intersection(node** list_a, node** list_b) {
 // en la lista B con el primer nodo de A
 // si A no es NULL y no se encontró, invocar recursivamente con el siguiente de A
 node** list_intersection_recursive(node** list_a, node** list_b) {
-    /**COMPLETAR**/
-    return NULL; //Reemplazar por el resultado de la búsqueda
+    node** intersection;
+    intersection = list_search_recursive(list_b, *list_a);
+    if(*list_a != NULL && *intersection == NULL)
+    {
+        intersection = list_intersection_recursive(list_b, &(*list_a)->next);
+    }
+
+    return intersection; //Reemplazar por el resultado de la búsqueda
 }
 
 // Dividir una lista desde la intersección 
 // Utilizando las funciones anteriores
 // list_intersection y list_clone
 int split_list (node** list_a, node** list_b){
-    /**COMPLETAR**/
+    node** intersection;
+    intersection = list_intersection(list_a, list_b);
+    if(*intersection != NULL)
+    {
+        *intersection = list_clone(*intersection);
+        return 1;
+    }
     return 0; //Reemplazar por el resultado
 }
 
 // probar la misma efectividad con las versiones recursivas
 int split_list_recursive(node** list_a, node** list_b){
-    /**COMPLETAR**/
+    node** intersection;
+    intersection = list_intersection_recursive(list_a, list_b);
+    if(*intersection != NULL)
+    {
+        *intersection = list_clone_recursive(*intersection);
+        return 1;
+    }
+    return 0; //Reemplazar por el resultado
     return 0; //Reemplazar por el resultado
 }
 
