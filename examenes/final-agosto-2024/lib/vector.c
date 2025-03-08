@@ -20,7 +20,7 @@ int expand(vector* v)
    int status = 0;
    
    v->max_size *= 2;
-   v->a = (VECTOR_ELEMENT*)realloc(v->a, v->max_size);
+   v->a = (VECTOR_ELEMENT*)realloc(v->a, sizeof(VECTOR_ELEMENT) * v->max_size);
    if(v->a == NULL)
    {
       status = -1;
